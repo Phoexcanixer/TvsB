@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace TaengvsBug.Script
 {
-    public class UserInput : MonoBehaviour
+    public class UserInput : MonoBehaviour,IUser
     {
         Dictionary<string, Action> ExecuteMethod = new Dictionary<string, Action>();
 
@@ -15,43 +15,41 @@ namespace TaengvsBug.Script
             ExecuteMethod["D"] = () => this.Heal();
 
             Debug.Log("Press: {0}--> ATK, {1}--> DEF, {2}--> HEAL" + "A" + "S" + "D");
+
+            Controller.Instance.SetPlayer();
+
+            
         }
 
         public void Update()
         {
             if (Input.anyKey)
             {
-                if (!ExecuteMethod.ContainsKey(Execute()))
+                if (ExecuteMethod.ContainsKey(Execute()))
                 {
-                    Debug.Log("Don't Have: " + Input.inputString);
-                    return;
+                    ExecuteMethod[Execute()]?.Invoke();
                 }
-                else ExecuteMethod[Execute()]?.Invoke();
             }
-
         }
 
         void Attack()
         {
             Controller.Instance.Attack();
-            //Debug.Log("Attack");
         }
         void Def()
         {
             Controller.Instance.HideBug();
-            //Debug.Log("Def");
         }
         void Heal()
         {
             Controller.Instance.PretendToDie();
-            //Debug.Log("Heal");
         }
 
         //----- 
         public string Execute()
         {
-            string getkey = Input.inputString;
-            return getkey.ToUpper();
+            string getKeyFromUser = Input.inputString;
+            return getKeyFromUser.ToUpper();
         }
 
     }//Class

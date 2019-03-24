@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 
 namespace TaengvsBug.Script
 {
@@ -6,10 +7,9 @@ namespace TaengvsBug.Script
     {
         public int atk { get; set; }
         public int hp { get; set; }
-
-        public int def;
-        public int lv;
-        public int exp;
+        public int def { get; set; }
+        public int lv { get; set; }
+        public int exp { get; set; }
 
         public BugFight(int atk,int def,int hp,int lv,int exp)
         {
@@ -22,15 +22,16 @@ namespace TaengvsBug.Script
 
         public void Attack(IAbillity target)
         {
-            if (def > target.atk) Console.WriteLine("  !!! Block !!!  ");
+            if (def > target.atk) Debug.Log("  !!! Block !!!  ");
             else hp -= (target.atk - def);
+            Debug.Log("  !!! hp !!!  "+ hp);
         }
 
         public virtual void Die(IAbillity target)
         {
             if (target.hp <= 0)
             {
-                Random rand = new Random();
+                System.Random rand = new System.Random();
                 lv = rand.Next(1, 10);
 
                 atk = 10 * lv;

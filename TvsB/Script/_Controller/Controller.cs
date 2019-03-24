@@ -1,5 +1,6 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 namespace TaengvsBug.Script
 {
@@ -21,15 +22,22 @@ namespace TaengvsBug.Script
             }
         }
         #endregion
+        public event Action showUI;
+        public Dictionary<int, IPlayer> players = new Dictionary<int, IPlayer>();
 
-        IPlayer _taeng01 = new TaengFight(50, 50, 100, 1, 0);
-        IPlayer _taeng02 = new TaengFight(50, 50, 100, 1, 0);
-        IPlayer _taeng03 = new TaengFight(50, 50, 100, 1, 0);
-        IPlayer _taeng04 = new TaengFight(50, 50, 100, 1, 0);
+        public void SetPlayer()
+        {
+            players.Add(1, new TaengFight(10, 5, 100, 1, 0));
+            players.Add(2, new TaengFight(20, 5, 100, 1, 0));
+            players.Add(3, new TaengFight(30, 5, 100, 1, 0));
+            players.Add(4, new TaengFight(40, 5, 100, 1, 0));
 
+            showUI.Invoke();
+        }
 
         public void Attack()
         {
+            players[0].Attack(players[1]);
             Debug.Log("ATK");
         }
 
