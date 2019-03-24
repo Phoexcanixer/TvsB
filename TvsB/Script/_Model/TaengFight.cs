@@ -16,13 +16,13 @@ namespace TaengvsBug.Script
         public void HideBug(int defs)
         {
             def += defs;
-            Debug.Log("taengdef: " + base.def + "  || taenghp: " + hp + "  || taengAtk: " + atk);
+            Debug.Log("taengdef: " + def + "  || taenghp: " + hp + "  || taengAtk: " + atk);
         }
 
-        public void PretendToDie(int hps)
+        public void PretendToDie(IAbillity target,int heal)
         {
-            hp += hps;
-            Debug.Log("taenghp: " + base.hp);
+            target.hp += heal;
+            Debug.Log("taenghp: " + target.hp);
         }
 
         public void LvUp(int exps)

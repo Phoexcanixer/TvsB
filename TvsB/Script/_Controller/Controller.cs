@@ -22,6 +22,7 @@ namespace TaengvsBug.Script
             }
         }
         #endregion
+
         public event Action showUI;
         public Dictionary<int, IPlayer> players = new Dictionary<int, IPlayer>();
 
@@ -35,20 +36,22 @@ namespace TaengvsBug.Script
             showUI.Invoke();
         }
 
-        public void Attack()
+        public void Attack(int player,int target)
         {
-            players[0].Attack(players[1]);
-            Debug.Log("ATK");
+            players[player].Attack(players[target]);
+            showUI.Invoke();
         }
 
-        public void HideBug()
+        public void Def(int player)
         {
-            Debug.Log("HideBug");
+            players[player].HideBug(10);
+            showUI.Invoke();
         }
 
-        public void PretendToDie()
+        public void Heal(int player, int target)
         {
-            Debug.Log("PretendToDie");
+            players[player].PretendToDie(players[target],50);
+            showUI.Invoke();
         }
     }
 }

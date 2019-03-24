@@ -7,8 +7,9 @@ namespace TaengvsBug.Script
     public class UserInput : MonoBehaviour,IUser
     {
         Dictionary<string, Action> ExecuteMethod = new Dictionary<string, Action>();
+        int turn = 1;
 
-        public void Awake()
+        public void Start()
         {
             ExecuteMethod["A"] = () => this.Attack();
             ExecuteMethod["S"] = () => this.Def();
@@ -17,11 +18,33 @@ namespace TaengvsBug.Script
             Debug.Log("Press: {0}--> ATK, {1}--> DEF, {2}--> HEAL" + "A" + "S" + "D");
 
             Controller.Instance.SetPlayer();
-
-            
         }
 
         public void Update()
+        {
+            Turn();
+        }
+
+        public void Turn()
+        {
+            switch (turn)
+            {
+                case 1:
+                    ChooseKey();
+                    break;
+                case 2:
+                    ChooseKey();
+                    break;
+                case 3:
+                    ChooseKey();
+                    break;
+                case 4:
+                    ChooseKey();
+                    break;
+            }
+        }
+
+        public void ChooseKey()
         {
             if (Input.anyKey)
             {
@@ -34,15 +57,15 @@ namespace TaengvsBug.Script
 
         void Attack()
         {
-            Controller.Instance.Attack();
+            Controller.Instance.Attack(turn, 2);
         }
         void Def()
         {
-            Controller.Instance.HideBug();
+            Controller.Instance.Def(turn);
         }
         void Heal()
         {
-            Controller.Instance.PretendToDie();
+            Controller.Instance.Heal(turn, 2);
         }
 
         //----- 

@@ -3,7 +3,7 @@
     public interface IPlayer : IAbillity
     {
         void HideBug(int defs);
-        void PretendToDie(int hps);
+        void PretendToDie(IAbillity target, int heal);
         void LvUp(int exps);
     }
 }

@@ -22,9 +22,9 @@ namespace TaengvsBug.Script
 
         public void Attack(IAbillity target)
         {
-            if (def > target.atk) Debug.Log("  !!! Block !!!  ");
-            else hp -= (target.atk - def);
-            Debug.Log("  !!! hp !!!  "+ hp);
+            if (target.def > atk) Debug.Log("  !!! Block !!!  ");
+            else target.hp -= (atk - target.def);
+            Debug.Log("  !!! hp !!!  "+ target.hp);
         }
 
         public virtual void Die(IAbillity target)

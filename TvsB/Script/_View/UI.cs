@@ -10,16 +10,15 @@ namespace TaengvsBug.Script
         // Start is called before the first frame update
         void Start()
         {
-            Show();
-            Controller.Instance.showUI += Show;
+           Controller.Instance.showUI += Show;
         }
 
         public void Show()
         {
-            playerShow[0].text = ("Player: 1" + " ATK: " + Controller.Instance.players[1].atk + " HP: " + Controller.Instance.players[1].hp);
-            playerShow[1].text = ("Player: 2" + " ATK: " + Controller.Instance.players[2].atk + " HP: " + Controller.Instance.players[2].hp);
-            playerShow[2].text = ("Player: 3" + " ATK: " + Controller.Instance.players[3].atk + " HP: " + Controller.Instance.players[3].hp);
-            playerShow[3].text = ("Player: 4" + " ATK: " + Controller.Instance.players[4].atk + " HP: " + Controller.Instance.players[4].hp);
+            playerShow[0].text = ("Player: 1" + " ATK: " + Controller.Instance.players[1].atk + " HP: " + Controller.Instance.players[1].hp + " Def: " + Controller.Instance.players[1].def + " Lv: " + Controller.Instance.players[1].lv + " Exp: " + Controller.Instance.players[1].exp);
+            playerShow[1].text = ("Player: 2" + " ATK: " + Controller.Instance.players[2].atk + " HP: " + Controller.Instance.players[2].hp + " Def: " + Controller.Instance.players[2].def + " Lv: " + Controller.Instance.players[2].lv + " Exp: " + Controller.Instance.players[2].exp);
+            playerShow[2].text = ("Player: 3" + " ATK: " + Controller.Instance.players[3].atk + " HP: " + Controller.Instance.players[3].hp + " Def: " + Controller.Instance.players[3].def + " Lv: " + Controller.Instance.players[3].lv + " Exp: " + Controller.Instance.players[3].exp);
+            playerShow[3].text = ("Player: 4" + " ATK: " + Controller.Instance.players[4].atk + " HP: " + Controller.Instance.players[4].hp + " Def: " + Controller.Instance.players[4].def + " Lv: " + Controller.Instance.players[4].lv + " Exp: " + Controller.Instance.players[4].exp);
         }
     }
 }
