@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 
 namespace TaengvsBug.Script
 {
@@ -21,33 +22,25 @@ namespace TaengvsBug.Script
         }
         #endregion
 
-        IAbillity _bug = new BugFight(10, 10, 10, 10, 10);
-        IPlayer _taeng = new TaengFight(50, 50, 100, 1, 0);
+        IPlayer _taeng01 = new TaengFight(50, 50, 100, 1, 0);
+        IPlayer _taeng02 = new TaengFight(50, 50, 100, 1, 0);
+        IPlayer _taeng03 = new TaengFight(50, 50, 100, 1, 0);
+        IPlayer _taeng04 = new TaengFight(50, 50, 100, 1, 0);
+
 
         public void Attack()
         {
-            _taeng.Attack(_bug);
-            BugAttack();
-            Console.WriteLine("   HP Taeng: " + _taeng.hp + "   HP Bug: " + _bug.hp);
+            Debug.Log("ATK");
         }
 
         public void HideBug()
         {
-            _taeng.HideBug(10);
-            BugAttack();
+            Debug.Log("HideBug");
         }
 
         public void PretendToDie()
         {
-            _taeng.PretendToDie(50);
-            BugAttack();
+            Debug.Log("PretendToDie");
         }
-
-        void BugAttack()
-        {
-            _bug.Attack(_taeng);
-            _bug.Die(_bug);
-        }
-
     }
 }
