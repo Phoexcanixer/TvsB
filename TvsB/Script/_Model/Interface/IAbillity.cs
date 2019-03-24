@@ -1,10 +1,11 @@
 ﻿namespace TaengvsBug.Script
 {
-    public interface IAbillity
+    interface IAbillity
     {
         int atk { get; set; }
+        int hp { get; set; }
 
         void Attack(IAbillity target);
-        void PlayerDie();
+        void Die(IAbillity target);
     }
 }

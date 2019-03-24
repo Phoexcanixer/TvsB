@@ -1,46 +1,34 @@
-﻿using UnityEngine;
+﻿using System;
 
 namespace TaengvsBug.Script
 {
-    public class TaengFight : MonoBehaviour
+    class TaengFight : BugFight,IPlayer
     {
-        public int atk;
-        public int hp;
-        public int def;
-        public int lv;
-        public int exp;
+        public int maxExp;
 
-        int maxExp;
-
-        public void Start()
+        public TaengFight(int atk, int def, int hp, int lv,int exp) 
+            :base (atk,def,hp,lv,exp)
         {
             maxExp = lv * 200;
-        }
-
-        public void Attack(TaengFight target)
-        {
-            if (def > target.atk) Debug.Log("  !!! Block !!!  ");
-            else hp -= (target.atk - def);
-            PlayerDie();
         }
 
         public void HideBug(int defs)
         {
             def += defs;
-            Debug.Log("taengdef: " + def + "  || taenghp: " + hp + "  || taengAtk: " + atk);
+            Console.WriteLine("taengdef: " + base.def + "  || taenghp: " + hp + "  || taengAtk: " + atk);
         }
 
         public void PretendToDie(int hps)
         {
             hp += hps;
-            Debug.Log("taenghp: " + hp);
+            Console.WriteLine("taenghp: " + base.hp);
         }
 
         public void LvUp(int exps)
         {
             exp += exps;
 
-            int _lv = (int)Mathf.Floor((float)exp / maxExp);
+            int _lv = (int)Math.Floor((double)exp / maxExp);
             int _remainExp = exp - (maxExp * _lv);
             int _newMaxExp = _lv * 200;
 
@@ -48,16 +36,16 @@ namespace TaengvsBug.Script
             exp = _remainExp;
             maxExp += _newMaxExp;
 
-            Debug.Log("   || exp: "+ exp);
-            Debug.Log("   || maxExp: " + maxExp);
-            Debug.Log("   || Lv: " + lv);
+            Console.WriteLine("   || exp: "+ exp);
+            Console.Write("   || maxExp: " + maxExp);
+            Console.Write("   || Lv: " + lv);
         }
 
-        public void PlayerDie()
+        public override void Die(IAbillity target)
         {
-            if (hp <= 0)
+            if (target.hp <= 0)
             {
-                Debug.Log("TaengHP: " + hp + "  || TaengDef: " + def + "  || TaengAtk: " + atk + "  || TaengLv: " + lv);
+                Console.WriteLine("TaengHP: " + hp + "  || TaengDef: " + def + "  || TaengAtk: " + atk + "  || TaengLv: " + lv);
             }
         }
     }

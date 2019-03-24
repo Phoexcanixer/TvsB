@@ -1,57 +1,43 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
-using UnityEngine;
+using System.Linq;
 
 namespace TaengvsBug.Script
 {
-    public class UserInput : MonoBehaviour
+    public class UserInput : IUser
     {
-        Dictionary<string, Action> ExecuteMethod = new Dictionary<string, Action>();
+        Dictionary<ConsoleKey, Action> ExecuteMethod = new Dictionary<ConsoleKey, Action>();
 
-        public void Awake()
-        { 
-            ExecuteMethod["A"] = () => this.Attack();
-            ExecuteMethod["S"] = () => this.Def();
-            ExecuteMethod["D"] = () => this.Heal();
+        public UserInput()
+        {
+            ExecuteMethod[ConsoleKey.A] = () => this.Attack();
+            ExecuteMethod[ConsoleKey.S] = () => this.Def();
+            ExecuteMethod[ConsoleKey.D] = () => this.Heal();
 
-            Debug.Log("Press: {0}--> ATK, {1}--> DEF, {2}--> HEAL"+ "A"+ "S"+ "D");
+            Console.WriteLine("Press: {0}--> ATK, {1}--> DEF, {2}--> HEAL","A","S","D");
+
+            InputKey();
         }
 
-        public void Update()
+        public void InputKey()
         {
-            if (Input.anyKey)
+            do
             {
-                if (!ExecuteMethod.ContainsKey(Execute()))
-                {
-                    Debug.Log("Don't Have" + Input.inputString);
-                    return;
-                }
-                else ExecuteMethod[Execute()]?.Invoke();
+                ExecuteMethod[Execute()]?.Invoke();
             }
-
+            while (true);
         }
 
-        void Attack()
-        {
-            Controller.instance.Attack();
-            //Debug.Log("Attack");
-        }
-        void Def()
-        {
-            Controller.instance.HideBug();
-            //Debug.Log("Def");
-        }
-        void Heal()
-        {
-            Controller.instance.PretendToDie();
-            //Debug.Log("Heal");
-        }
+        void Attack() { Controller.Instance.Attack(); }
+        void Def() { Controller.Instance.HideBug(); }
+        void Heal() { Controller.Instance.PretendToDie(); }
 
         //----- 
-        public string Execute()
+        public ConsoleKey Execute()
         {
-            string getkey = Input.inputString;
-            return getkey.ToUpper();
+           Console.TreatControlCAsInput = true;
+           ConsoleKeyInfo getKeyFromUser = Console.ReadKey();
+           return getKeyFromUser.Key;
         }
 
     }//Class

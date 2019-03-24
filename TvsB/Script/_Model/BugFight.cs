@@ -1,12 +1,12 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System;
 
 namespace TaengvsBug.Script
 {
-    public class BugFight : MonoBehaviour
+    class BugFight : IAbillity
     {
-        public int atk;
-        public int hp;
+        public int atk { get; set; }
+        public int hp { get; set; }
+
         public int def;
         public int lv;
         public int exp;
@@ -20,23 +20,24 @@ namespace TaengvsBug.Script
             this.exp = exp;
         }
 
-        public void Attack(object target)
+        public void Attack(IAbillity target)
         {
-            if (def > atk) Debug.Log("  !!! Block !!!  ");
-            else hp -= (atk - def);
+            if (def > target.atk) Console.WriteLine("  !!! Block !!!  ");
+            else hp -= (target.atk - def);
         }
 
-        public virtual void Die(object target)
+        public virtual void Die(IAbillity target)
         {
-            if (hp <= 0)
+            if (target.hp <= 0)
             {
-                lv = Random.Range(1, 10);
+                Random rand = new Random();
+                lv = rand.Next(1, 10);
 
                 atk = 10 * lv;
                 def = 5 * lv;
                 hp = 100 * lv;
 
-                Debug.Log("\nBugHP: " + hp + "  || BugDef: " + def + "  || BugAtk: " + atk + "  || BugLv: " + lv);
+                Console.WriteLine("\nBugHP: " + hp + "  || BugDef: " + def + "  || BugAtk: " + atk + "  || BugLv: " + lv);
             }
         }
     }

@@ -1,43 +1,53 @@
-using System.Collections.Generic;
-using UnityEngine;
+﻿using System;
 
 namespace TaengvsBug.Script
 {
-    public class Controller : MonoBehaviour
+    public class Controller : IController
     {
         #region Singleton 
-        public static Controller instance;
+        static Controller instance;
 
-        public void Awake()
+        public static Controller Instance
         {
-            if(instance == null) instance = this;
-            else Destroy(this);
-            DontDestroyOnLoad(this);
+            get
+            {
+                if(instance == null)
+                {
+                    instance = new Controller();
+                }
+
+                return instance;
+            }
         }
         #endregion
 
-        public List<TaengFight> _taeng;
+        IAbillity _bug = new BugFight(10, 10, 10, 10, 10);
+        IPlayer _taeng = new TaengFight(50, 50, 100, 1, 0);
 
         public void Attack()
         {
-            Debug.Log("ATK");
-            _taeng[0].Attack(_taeng[0]);
-            // BugAttack();
-            // Console.WriteLine("   HP Taeng: " + _taeng.hp + "   HP Bug: " + _bug.hp);
+            _taeng.Attack(_bug);
+            BugAttack();
+            Console.WriteLine("   HP Taeng: " + _taeng.hp + "   HP Bug: " + _bug.hp);
         }
 
         public void HideBug()
         {
-            Debug.Log("DEF");
-            // _taeng.HideBug(10);
-            // BugAttack();
+            _taeng.HideBug(10);
+            BugAttack();
         }
 
         public void PretendToDie()
         {
-            Debug.Log("PTD");
-            // _taeng.PretendToDie(50);
-            // BugAttack();
+            _taeng.PretendToDie(50);
+            BugAttack();
         }
+
+        void BugAttack()
+        {
+            _bug.Attack(_taeng);
+            _bug.Die(_bug);
+        }
+
     }
 }
