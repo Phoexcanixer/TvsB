@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
 using TaengvsBug.Script;
 
 namespace TaengvsBug
 {
-    class Program
+    class Program : MonoBehaviour
     {
         
-        public static void Main(string[] args)
+        public void Awake()
         {
             IUser userInput = new UserInput();
         }

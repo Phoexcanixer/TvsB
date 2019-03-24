@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -15,8 +15,6 @@ namespace TaengvsBug.Script
             ExecuteMethod[ConsoleKey.D] = () => this.Heal();
 
             Console.WriteLine("Press: {0}--> ATK, {1}--> DEF, {2}--> HEAL","A","S","D");
-
-            InputKey();
         }
 
         public void InputKey()
