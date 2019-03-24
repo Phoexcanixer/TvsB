@@ -33,17 +33,17 @@ namespace TaengvsBug.Script
 
         void Attack()
         {
-            Controller.instance.Attack();
+           // Controller.instance.Attack();
             Debug.Log("Attack");
         }
         void Def()
         {
-            Controller.instance.HideBug();
+            //Controller.instance.HideBug();
             Debug.Log("Def");
         }
         void Heal()
         {
-            Controller.instance.PretendToDie();
+            //Controller.instance.PretendToDie();
             Debug.Log("Heal");
         }
 
