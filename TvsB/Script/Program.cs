@@ -7,10 +7,9 @@ namespace TaengvsBug
 {
     class Program : MonoBehaviour
     {
-
-        public void Awake()
-        {
-            IUser userInput = new UserInput();
-        }
+        //public void Awake()
+        //{
+        //    IUser userInput = new UserInput();
+        //}
     }
 }
