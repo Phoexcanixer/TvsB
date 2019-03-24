@@ -8,6 +8,9 @@ namespace TaengvsBug.Script
     {
         Dictionary<string, Action> ExecuteMethod = new Dictionary<string, Action>();
         int turn = 1;
+        string action;
+        int target;
+        bool isCheck = true;
 
         public void Start()
         {
@@ -30,43 +33,63 @@ namespace TaengvsBug.Script
             switch (turn)
             {
                 case 1:
-                    ChooseKey();
+                    Debug.Log("1");
+                    ChooseAction();
+                    ChooseTarget();
                     break;
                 case 2:
-                    ChooseKey();
+                    Debug.Log("2");
+                    ChooseAction();
+                    ChooseTarget();
                     break;
                 case 3:
-                    ChooseKey();
+                    Debug.Log("3");
+                    ChooseAction();
+                    ChooseTarget();
                     break;
                 case 4:
-                    ChooseKey();
+                    Debug.Log("4");
+                    ChooseAction();
+                    ChooseTarget();
                     break;
             }
         }
 
-        public void ChooseKey()
+        public void ChooseAction()
         {
-            if (Input.anyKey)
+            if (Input.anyKey && isCheck == true)
             {
                 if (ExecuteMethod.ContainsKey(Execute()))
                 {
-                    ExecuteMethod[Execute()]?.Invoke();
+                    action = Execute();
+                    isCheck = false;
                 }
+                return;
             }
         }
 
-        void Attack()
+        public void ChooseTarget()
         {
-            Controller.Instance.Attack(turn, 2);
+            if (Input.anyKey && isCheck == false)
+            {
+                if (Input.GetKey(KeyCode.Alpha1) || Input.GetKey(KeyCode.Alpha2) || Input.GetKey(KeyCode.Alpha3) || Input.GetKey(KeyCode.Alpha4))
+                {
+                    if (Input.GetKey(KeyCode.Alpha1)) target = 1;
+                    if (Input.GetKey(KeyCode.Alpha2)) target = 2;
+                    if (Input.GetKey(KeyCode.Alpha3)) target = 3;
+                    if (Input.GetKey(KeyCode.Alpha4)) target = 4;
+                    ExecuteMethod[action]?.Invoke(); 
+                    isCheck = true;
+
+                    turn++;
+                }
+                return;
+            }
         }
-        void Def()
-        {
-            Controller.Instance.Def(turn);
-        }
-        void Heal()
-        {
-            Controller.Instance.Heal(turn, 2);
-        }
+
+        void Attack() { Controller.Instance.Attack(turn, target); }
+        void Def() { Controller.Instance.Def(turn); }
+        void Heal() { Controller.Instance.Heal(turn, target); }
 
         //----- 
         public string Execute()
