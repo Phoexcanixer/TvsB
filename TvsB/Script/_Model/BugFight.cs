@@ -1,8 +1,9 @@
-﻿using System;
+﻿using UnityEngine;
+using System.Collections;
 
 namespace TaengvsBug.Script
 {
-    class BugFight : IAbillity
+    public class BugFight : MonoBehaviour,IAbillity
     {
         public int atk { get; set; }
         public int hp { get; set; }
@@ -22,7 +23,7 @@ namespace TaengvsBug.Script
 
         public void Attack(IAbillity target)
         {
-            if (def > target.atk) Console.WriteLine("  !!! Block !!!  ");
+            if (def > target.atk) Debug.Log("  !!! Block !!!  ");
             else hp -= (target.atk - def);
         }
 
@@ -30,14 +31,13 @@ namespace TaengvsBug.Script
         {
             if (target.hp <= 0)
             {
-                Random rand = new Random();
-                lv = rand.Next(1, 10);
+                lv = Random.Range(1, 10);
 
                 atk = 10 * lv;
                 def = 5 * lv;
                 hp = 100 * lv;
 
-                Console.WriteLine("\nBugHP: " + hp + "  || BugDef: " + def + "  || BugAtk: " + atk + "  || BugLv: " + lv);
+                Debug.Log("\nBugHP: " + hp + "  || BugDef: " + def + "  || BugAtk: " + atk + "  || BugLv: " + lv);
             }
         }
     }

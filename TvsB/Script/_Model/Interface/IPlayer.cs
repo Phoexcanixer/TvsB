@@ -1,6 +1,6 @@
 ﻿namespace TaengvsBug.Script
 {
-    interface IPlayer : IAbillity
+    public interface IPlayer : IAbillity
     {
         void HideBug(int defs);
         void PretendToDie(int hps);

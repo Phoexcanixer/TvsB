@@ -1,6 +1,6 @@
 ﻿namespace TaengvsBug.Script
 {
-    interface IAbillity
+    public interface IAbillity
     {
         int atk { get; set; }
         int hp { get; set; }

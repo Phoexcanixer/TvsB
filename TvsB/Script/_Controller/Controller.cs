@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace TaengvsBug.Script
@@ -15,13 +16,12 @@ namespace TaengvsBug.Script
         }
         #endregion
 
-        // IAbillity _bug = new BugFight(10, 10, 10, 10, 10);
-        // IPlayer _taeng = new TaengFight(50, 50, 100, 1, 0);
+        public TaengFight _taeng;
 
         public void Attack()
         {
             Debug.Log("ATK");
-            // _taeng.Attack(_bug);
+            _taeng.Attack(_taeng);
             // BugAttack();
             // Console.WriteLine("   HP Taeng: " + _taeng.hp + "   HP Bug: " + _bug.hp);
         }
