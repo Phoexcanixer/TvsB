@@ -3,11 +3,10 @@ using System.Collections;
 
 namespace TaengvsBug.Script
 {
-    public class BugFight : MonoBehaviour,IAbillity
+    public class BugFight : MonoBehaviour
     {
-        public int atk { get; set; }
-        public int hp { get; set; }
-
+        public int atk;
+        public int hp;
         public int def;
         public int lv;
         public int exp;
@@ -21,15 +20,15 @@ namespace TaengvsBug.Script
             this.exp = exp;
         }
 
-        public void Attack(IAbillity target)
+        public void Attack(object target)
         {
-            if (def > target.atk) Debug.Log("  !!! Block !!!  ");
-            else hp -= (target.atk - def);
+            if (def > atk) Debug.Log("  !!! Block !!!  ");
+            else hp -= (atk - def);
         }
 
-        public virtual void Die(IAbillity target)
+        public virtual void Die(object target)
         {
-            if (target.hp <= 0)
+            if (hp <= 0)
             {
                 lv = Random.Range(1, 10);
 

@@ -16,12 +16,12 @@ namespace TaengvsBug.Script
         }
         #endregion
 
-        public TaengFight _taeng;
+        public List<TaengFight> _taeng;
 
         public void Attack()
         {
             Debug.Log("ATK");
-            _taeng.Attack(_taeng);
+            _taeng[0].Attack(_taeng[0]);
             // BugAttack();
             // Console.WriteLine("   HP Taeng: " + _taeng.hp + "   HP Bug: " + _bug.hp);
         }

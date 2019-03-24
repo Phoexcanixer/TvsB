@@ -2,26 +2,38 @@
 
 namespace TaengvsBug.Script
 {
-    public class TaengFight : BugFight,IPlayer
+    public class TaengFight : MonoBehaviour
     {
+        public int atk;
+        public int hp;
+        public int def;
+        public int lv;
+        public int exp;
+
         int maxExp;
 
-        public TaengFight(int atk, int def, int hp, int lv,int exp) 
-            :base (atk,def,hp,lv,exp)
+        public void Start()
         {
             maxExp = lv * 200;
+        }
+
+        public void Attack(TaengFight target)
+        {
+            if (def > target.atk) Debug.Log("  !!! Block !!!  ");
+            else hp -= (target.atk - def);
+            PlayerDie();
         }
 
         public void HideBug(int defs)
         {
             def += defs;
-            Debug.Log("taengdef: " + base.def + "  || taenghp: " + hp + "  || taengAtk: " + atk);
+            Debug.Log("taengdef: " + def + "  || taenghp: " + hp + "  || taengAtk: " + atk);
         }
 
         public void PretendToDie(int hps)
         {
             hp += hps;
-            Debug.Log("taenghp: " + base.hp);
+            Debug.Log("taenghp: " + hp);
         }
 
         public void LvUp(int exps)
@@ -41,9 +53,9 @@ namespace TaengvsBug.Script
             Debug.Log("   || Lv: " + lv);
         }
 
-        public override void Die(IAbillity target)
+        public void PlayerDie()
         {
-            if (target.hp <= 0)
+            if (hp <= 0)
             {
                 Debug.Log("TaengHP: " + hp + "  || TaengDef: " + def + "  || TaengAtk: " + atk + "  || TaengLv: " + lv);
             }
