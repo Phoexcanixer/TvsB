@@ -4,13 +4,15 @@ using UnityEngine;
 
 namespace TaengvsBug.Script
 {
+    
     public class UserInput : MonoBehaviour,IUser
     {
         Dictionary<string, Action> ExecuteMethod = new Dictionary<string, Action>();
-        int turn = 1;
-        string action;
-        int target;
-        bool isCheck = true;
+        public enum eturn { Action, ChooseTarget }
+        public eturn actionOrChoose = eturn.Action;
+
+        string _keyAction;
+        int _keyTarget;
 
         public void Start()
         {
@@ -25,71 +27,86 @@ namespace TaengvsBug.Script
 
         public void Update()
         {
-            Turn();
+            Turn(actionOrChoose);
         }
 
-        public void Turn()
+        public void Turn(eturn turn)
         {
             switch (turn)
             {
-                case 1:
-                    Debug.Log("1");
+                case eturn.Action:
                     ChooseAction();
+                    break;
+                case eturn.ChooseTarget:
                     ChooseTarget();
                     break;
-                case 2:
-                    Debug.Log("2");
-                    ChooseAction();
-                    ChooseTarget();
-                    break;
-                case 3:
-                    Debug.Log("3");
-                    ChooseAction();
-                    ChooseTarget();
-                    break;
-                case 4:
-                    Debug.Log("4");
-                    ChooseAction();
-                    ChooseTarget();
+                default:
                     break;
             }
         }
 
         public void ChooseAction()
         {
-            if (Input.anyKey && isCheck == true)
+            if (Input.anyKey)
             {
                 if (ExecuteMethod.ContainsKey(Execute()))
                 {
-                    action = Execute();
-                    isCheck = false;
+                    _keyAction = Execute();
+                    ExecuteMethod[Execute()]?.Invoke();
                 }
-                return;
             }
         }
 
         public void ChooseTarget()
         {
-            if (Input.anyKey && isCheck == false)
+            if (Input.anyKey)
             {
-                if (Input.GetKey(KeyCode.Alpha1) || Input.GetKey(KeyCode.Alpha2) || Input.GetKey(KeyCode.Alpha3) || Input.GetKey(KeyCode.Alpha4))
+                if (Input.GetKey(KeyCode.Alpha1))
                 {
-                    if (Input.GetKey(KeyCode.Alpha1)) target = 1;
-                    if (Input.GetKey(KeyCode.Alpha2)) target = 2;
-                    if (Input.GetKey(KeyCode.Alpha3)) target = 3;
-                    if (Input.GetKey(KeyCode.Alpha4)) target = 4;
-                    ExecuteMethod[action]?.Invoke(); 
-                    isCheck = true;
-
-                    turn++;
+                    _keyTarget = 0;
+                    Target();
                 }
-                return;
+
+                else if (Input.GetKey(KeyCode.Alpha2))
+                {
+                    _keyTarget = 1;
+                    Target();
+                }
+
+                else if(Input.GetKey(KeyCode.Alpha3))
+                {
+                    _keyTarget = 2;
+                    Target();
+                }
+
+                else if(Input.GetKey(KeyCode.Alpha4))
+                {
+                    _keyTarget = 3;
+                    Target();
+                }
             }
         }
 
-        void Attack() { Controller.Instance.Attack(turn, target); }
-        void Def() { Controller.Instance.Def(turn); }
-        void Heal() { Controller.Instance.Heal(turn, target); }
+        void Target()
+        {
+            actionOrChoose = eturn.Action;
+            if(_keyAction == "A") Controller.Instance.Attack(0, _keyTarget);
+            else if(_keyAction == "D") Controller.Instance.Heal(0, _keyTarget);
+        }
+
+        void Attack()
+        {
+            actionOrChoose = eturn.ChooseTarget;
+        }
+        void Def()
+        {
+            Controller.Instance.Def(0);
+            actionOrChoose = eturn.Action;
+        }
+        void Heal()
+        {
+            actionOrChoose = eturn.ChooseTarget;
+        }
 
         //----- 
         public string Execute()

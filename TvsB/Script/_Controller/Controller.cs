@@ -24,33 +24,38 @@ namespace TaengvsBug.Script
         #endregion
 
         public event Action showUI;
-        public Dictionary<int, IPlayer> players = new Dictionary<int, IPlayer>();
+        public List<IPlayer> players = new List<IPlayer>();
 
         public void SetPlayer()
         {
-            players.Add(1, new TaengFight(10, 5, 100, 1, 0));
-            players.Add(2, new TaengFight(20, 5, 100, 1, 0));
-            players.Add(3, new TaengFight(30, 5, 100, 1, 0));
-            players.Add(4, new TaengFight(40, 5, 100, 1, 0));
+            players.Add(new TaengFight(10, 5, 100, 1, 0));
+            players.Add(new TaengFight(20, 5, 100, 1, 0));
+            players.Add(new TaengFight(30, 5, 100, 1, 0));
+            players.Add(new TaengFight(40, 5, 100, 1, 0));
 
-            showUI.Invoke();
+            InvokeUI();
         }
 
         public void Attack(int player,int target)
         {
             players[player].Attack(players[target]);
-            showUI.Invoke();
+            InvokeUI();
         }
 
         public void Def(int player)
         {
             players[player].HideBug(10);
-            showUI.Invoke();
+            InvokeUI();
         }
 
         public void Heal(int player, int target)
         {
             players[player].PretendToDie(players[target],50);
+            InvokeUI();
+        }
+
+        void InvokeUI()
+        {
             showUI.Invoke();
         }
     }
