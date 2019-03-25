@@ -7,10 +7,10 @@ namespace TaengvsBug.Script
     {
         public int maxExp;
 
-        public TaengFight(int atk, int def, int hp, int lv,int exp) 
-            :base (atk,def,hp,lv,exp)
+        public TaengFight(int atk, int def, int hp, int lv,int exp,int reward) 
+            :base (atk,def,hp,lv,exp,reward)
         {
-            maxExp = lv * 200;
+            maxExp = lv * 100;
         }
 
         public void HideBug(int defs)

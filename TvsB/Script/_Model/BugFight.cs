@@ -10,14 +10,16 @@ namespace TaengvsBug.Script
         public int def { get; set; }
         public int lv { get; set; }
         public int exp { get; set; }
+        public int reward { get; set; }
 
-        public BugFight(int atk,int def,int hp,int lv,int exp)
+        public BugFight(int atk,int def,int hp,int lv,int exp,int reward)
         {
             this.atk = atk;
             this.def = def;
             this.hp = hp;
             this.lv = lv;
             this.exp = exp;
+            this.reward = reward;
         }
 
         public void Attack(IAbillity target)

@@ -7,6 +7,7 @@
         int def { get; set; }
         int lv { get; set; }
         int exp { get; set; }
+        int reward { get; set; }
 
         void Attack(IAbillity target);
         void Die(IAbillity target);
