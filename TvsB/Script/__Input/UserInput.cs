@@ -9,12 +9,12 @@ namespace TaengvsBug.Script
     {
         Dictionary<string, Action> ExecuteMethod = new Dictionary<string, Action>();
         List<string> keyDic = new List<string>();
-        public enum eturn { Action, ChooseTargetHeal, ChooseTargetAttack }
+        public enum eturn { Action, ChooseTarget }
         public eturn actionOrChoose = eturn.Action;
 
         string _keyAction;
         int _keyTarget;
-        int _player = 0;
+        int _player = 1;
 
         public void Start()
         {
@@ -24,10 +24,7 @@ namespace TaengvsBug.Script
 
             Debug.Log("Press: {0}--> ATK, {1}--> DEF, {2}--> HEAL" + "A" + "S" + "D");
 
-            foreach (KeyValuePair<string, Action> item in ExecuteMethod)
-            {
-                keyDic.Add(item.Key);
-            }
+            foreach (KeyValuePair<string, Action> item in ExecuteMethod) { keyDic.Add(item.Key); }
             
             Controller.Instance.SetPlayer();
         }
@@ -44,11 +41,8 @@ namespace TaengvsBug.Script
                 case eturn.Action:
                     ChooseAction();
                     break;
-                case eturn.ChooseTargetHeal:
-                    ChooseTargetHeal();
-                    break;
-                case eturn.ChooseTargetAttack:
-                    ChooseTargetAtk();
+                case eturn.ChooseTarget:
+                    ChooseTarget();
                     break;
                 default:
                     break;
@@ -75,99 +69,93 @@ namespace TaengvsBug.Script
 
         void Attack()
         {
-            actionOrChoose = eturn.ChooseTargetAttack;
+            actionOrChoose = eturn.ChooseTarget;
         }
 
         void Def()
         {
-            Controller.Instance.Def(_player);
             actionOrChoose = eturn.Action;
+            Controller.Instance.Def(_player);
+            NextPlayer();
         }
 
         void Heal()
         {
-            actionOrChoose = eturn.ChooseTargetHeal;
+            actionOrChoose = eturn.ChooseTarget;
         }
 
-        public void ChooseTargetHeal()
+        public void ChooseTarget()
         {
-            if (Input.anyKey)
+            if (int.TryParse(Input.inputString, out int check))
             {
-                if (Input.GetKey(KeyCode.Alpha1))
+                if (Input.GetKey(KeyCode.Alpha1)) { _keyTarget = Controller.Instance.countPlayer[0]; }
+                else if (Input.GetKey(KeyCode.Alpha2)) { _keyTarget = Controller.Instance.countPlayer[1]; }
+                else if (Input.GetKey(KeyCode.Alpha3)) { _keyTarget = Controller.Instance.countPlayer[2]; }
+                else if (Input.GetKey(KeyCode.Alpha4)) { _keyTarget = Controller.Instance.countPlayer[3]; }
+                else
                 {
-                    _keyTarget = Controller.Instance.countPlayer[0];
-                    Target();
+                    Debug.Log("No Target");
+                    return;
                 }
-
-                else if (Input.GetKey(KeyCode.Alpha2))
-                {
-                    _keyTarget = Controller.Instance.countPlayer[1];
-                    Target();
-                }
-
-                else if (Input.GetKey(KeyCode.Alpha3))
-                {
-                    _keyTarget = Controller.Instance.countPlayer[2];
-                    Target();
-                }
-
-                else if (Input.GetKey(KeyCode.Alpha4))
-                {
-                    _keyTarget = Controller.Instance.countPlayer[3];
-                    Target();
-                }
+                CheckPlayer(_keyTarget);
             }
-        }
-
-        public void ChooseTargetAtk()
-        {
-            if (Input.anyKey)
+            else
             {
-                if (Input.GetKey(KeyCode.Alpha1))
-                {
-                    _keyTarget = Controller.Instance.countPlayer[0];
-                    CheckTarget();
-                }
-                else if (Input.GetKey(KeyCode.Alpha2))
-                {
-                    _keyTarget = Controller.Instance.countPlayer[1];
-                    CheckTarget();
-                }
-                else if (Input.GetKey(KeyCode.Alpha3))
-                {
-                    _keyTarget = Controller.Instance.countPlayer[2];
-                    CheckTarget();
-                }
-                else if (Input.GetKey(KeyCode.Alpha4))
-                {
-                    _keyTarget = Controller.Instance.countPlayer[3];
-                    CheckTarget();
-                }
-            }
-        }
-
-        void CheckTarget()
-        {
-            if (_keyTarget == _player)
-            {
-                Debug.Log("Can't Atk self");
+                Debug.Log("Press Numberic");
                 return;
             }
-            else if (_keyTarget != _player)
+        }
+
+        void CheckPlayer(int player)
+        {
+            if (!Controller.Instance.players.ContainsKey(player))
             {
-                Target();
+                Debug.Log("Don't Have Player");
+                return;
             }
+            else Target();
         }
 
         void Target()
         {
+            if (_keyAction == keyDic[0])
+            {
+                if (_keyTarget == _player)
+                {
+                    Debug.Log("Can't Atk self");
+                    return;
+                }
+                else if (_keyTarget != _player)
+                {
+                    Controller.Instance.Attack(_player, _keyTarget);
+                } 
+            } 
+            else if (_keyAction == keyDic[2]) Controller.Instance.Heal(_player,_keyTarget);
+            NextPlayer();
             actionOrChoose = eturn.Action;
-            if (_keyAction == keyDic[0]) Controller.Instance.Attack(_player, _keyTarget);
-            else if (_keyAction == keyDic[2]) Controller.Instance.Heal(_player, _keyTarget);
+        }
 
-            if (_player >= Controller.Instance.countPlayer.Count - 1) { _player = 0; }
+        void NextPlayer()
+        {
+            if (_player >= Controller.Instance.countPlayer.Count)
+            {
+                _player = 1;
+                foreach (var check in Controller.Instance.players)
+                {
+                    if (Controller.Instance.players.ContainsKey(_player))
+                    {
+                        Debug.Log("Find Player Success");
+                        break;
+                    }
+                    else
+                    {
+                        _player++;
+                    }
+                }
+                
+            }
             else _player++;
-            
+            Debug.Log("Turn Player: " + _player);
         }
     }//Class
 }//Namespace
